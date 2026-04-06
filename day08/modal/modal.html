@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="modal.css" rel="stylesheet" type="text/css" />
+    <title>Document</title>
+    <script>
+      var checkIdModal;
+
+      window.addEventListener("DOMContentLoaded", function () {
+        checkIdModal = new Modal();
+
+        /*
+        checkIdModal.setWidth("400px");
+
+        checkIdModal.setHeight("initial");
+
+        //checkIdModal.setHeader(null);
+        //checkIdModal.setHeader("<p>이것은 헤더입니다.</p>");
+
+        checkIdModal.setTitle("타이틀");
+
+        checkIdModal.setContent(
+          "<div class='modal_inquiry_result'>등록 완료되었습니다.</div>"
+        );
+
+        // checkIdModal.setFooter(
+        //   "<span class='btn btn_style1 modal_confirm' onclick='checkIdModal.hide();'>확 인</span>"
+        // );
+
+        checkIdModal.setPositiveButton("확인", () => {
+          checkIdModal.hide();
+        });
+
+        checkIdModal.setNegativeButton("취소", () => {
+          checkIdModal.hide();
+        });
+
+        checkIdModal.setModalDisplayBtnIds(["btn1"]);
+        */
+      });
+
+      function modalShow() {
+        checkIdModal
+          .setWidth("400px")
+          .setHeight("initial")
+          .setTitle("타이틀")
+          .setContent(
+            "<div class='modal_inquiry_result'>등록 완료되었습니다.</div>"
+          )
+          .show();
+      }
+    </script>
+    <script src="modal.js"></script>
+  </head>
+  <body>
+    <input type="button" onclick="modalShow();" value="입력" />
+    <input type="button" id="btn1" type="button" value="추가버튼" />
+  </body>
+</html>

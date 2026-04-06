@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .chart-box {
+        background: #292b3d;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .chart-box:hover {
+        transform: scale(1.05);
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 250px !important;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const lables = ["1월", "2월", "3월", "4월", "5월", "6월"];
+        const dataValues = [65, 59, 80, 81, 56, 55];
+
+        new Chart(document.getElementById("barChart"), {
+          type: "bar",
+          data: {
+            labels: lables,
+            datasets: [
+              {
+                label: "월별 판매량",
+                data: dataValues,
+                backgroundColor: "rgba(0, 192, 255, 0.8)",
+                borderColor: "rgba(0, 192, 255, 1)",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+
+        new Chart(document.getElementById("lineChart"), {
+          type: "line",
+          data: {
+            labels: lables,
+            datasets: [
+              {
+                label: "매출 변화",
+                data: dataValues,
+                borderColor: "#ff6384",
+                borderWidth: 3,
+                fill: false,
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+
+        new Chart(document.getElementById("pieChart"), {
+          type: "pie",
+          data: {
+            labels: ["A제품", "B제품", "C제품"],
+            datasets: [
+              {
+                data: [30, 45, 25],
+                backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"],
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+
+        new Chart(document.getElementById("doughnutChart"), {
+          type: "doughnut",
+          data: {
+            labels: ["서울", "부산", "대구", "광주"],
+            datasets: [
+              {
+                data: [40, 25, 20, 15],
+                backgroundColor: ["#ff6384", "#36a2eb", "#4bc0c0", "#ff9f40"],
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+
+        new Chart(document.getElementById("radarChart"), {
+          type: "radar",
+          data: {
+            labels: ["기술력", "디자인", "마케팅", "가격", "서비스"],
+            datasets: [
+              {
+                label: "제품 평가",
+                data: [80, 90, 75, 85, 95],
+                borderColor: "#36a2eb",
+                backgroundColor: "rgba(54, 162, 235, 0.3)",
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+
+        new Chart(document.getElementById("scatterChart"), {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "산점도 데이터",
+                data: [
+                  { x: 10, y: 20 },
+                  { x: 15, y: 20 },
+                  { x: 25, y: 30 },
+                  { x: 35, y: 25 },
+                  { x: 50, y: 45 },
+                ],
+                backgroundColor: "#36a2eb",
+              },
+            ],
+          },
+          options: { responsive: true },
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h2>Chart.js 대시보드</h2>
+    <div class="dashboard">
+      <div class="chart-box"><canvas id="barChart"></canvas></div>
+      <div class="chart-box"><canvas id="lineChart"></canvas></div>
+      <div class="chart-box"><canvas id="pieChart"></canvas></div>
+      <div class="chart-box"><canvas id="doughnutChart"></canvas></div>
+      <div class="chart-box"><canvas id="radarChart"></canvas></div>
+      <div class="chart-box"><canvas id="scatterChart"></canvas></div>
+    </div>
+  </body>
+</html>

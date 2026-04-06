@@ -1,0 +1,139 @@
+.modal {
+  display: none;
+  /*display: table;*/
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_inner {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.modal_content {
+  display: flex;
+  width: 60%;
+  height: 50%;
+  background-color: #fefefe;
+  padding: 0px;
+  margin: auto;
+  flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animate_modal_top;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animate_modal_top;
+  animation-duration: 0.4s;
+}
+
+.modal_header {
+  position: relative;
+  display: table;
+  padding: 8px 8px 8px 8px;
+  background-color: #0c4ca4;
+  color: white;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.modal_header > .close {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translate(0%, -60%);
+}
+
+.modal_title {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal_title > h2 {
+  margin: 0;
+}
+
+.modal_body {
+  flex: 1 0 auto;
+  padding: 10px 10px 10px 10px;
+}
+
+.modal_inquiry_result {
+  margin: 10px 0 0 0;
+  font-size: 12px;
+  color: #666;
+  text-align: left;
+  font-family: "돋움", "굴림", Arial, "sans-serif";
+}
+
+.modal_footer {
+  padding: 5px 5px 5px 5px;
+  text-align: center;
+}
+
+.modal_confirm {
+  float: right;
+  background: black;
+  margin-left: 10px;
+}
+
+.btn {
+  display: inline-block;
+  border: 0 none;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-radius: 1px;
+}
+
+.btn_style1 {
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 6px 12px;
+}
+
+.pos {
+  background: blue;
+}
+
+.neg {
+  background: red;
+}
+
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+@-webkit-keyframes animate_modal_top {
+  from {
+    opacity: 0;
+    margin-top: -100%;
+  }
+  to {
+    opacity: 1;
+    margin-top: -0%;
+  }
+}
+
+@keyframes animate_modal_top {
+  from {
+    opacity: 0;
+    margin-top: -100%;
+  }
+  to {
+    opacity: 1;
+    margin-top: -0%;
+  }
+}

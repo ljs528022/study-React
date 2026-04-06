@@ -1,0 +1,55 @@
+고차 컴포넌트(HOC, Higher-Order Component)
+- 컴포넌트를 인자로 받아 새로운 컴포넌트를 반환하는 함수
+- 여러 종류의 컴포넌트에 공통 기능을 부여
+- 과거에 많이 사용되었지만, 최근에는 HOC 대신 커스텀 훅을 더 많이 사용!
+
+사용 이유
+1) 코드 재사용성
+- 동일한 기능(예: 인증 체크, 로깅등) 여러 컴포넌트에서 중복 작성할 필요 없이 재사용 가능
+
+2) 관심사 분리
+- UI 로직과 부가적인 로직을 분리하여 코드를 깔끔하게 유지
+
+3) 조건부 랜더링
+- 인증된 사용자만 특정 페이지를 볼 수 있도록 접근 제어 가능
+
+React의 <StrickMode>가 활성화되면, 개발환경에서 컴포넌트의 useEffect 및 생명주기매서드가 두번 실행되는 현상이 발생할 수 있음
+
+useReducer란?
+- React의 상태 관리 훅(Hook) 중 하나
+- 더 복잡한 상태 로직을 다룰 때 유용한 방법
+- 상태 변화가 여러 단계로 이루어지거나, 상태 변경 로직이 복잡한 경우 코드의 가독성과 유지보수성이 향상
+
+기본본적인 useReduser 문법
+const [state, dispatch] = useReduser(reduser, initalState);
+
+- reduser : 상태 변경 로직을 정의하는 함수
+- initialState : 초기 상태값
+- state: 현재 상태 값
+- dispatch: 액션을 보내는 함수 (dispatch({type: "INCREMENT"})) 와 같은 방식으로 사용
+
+장점
+- useState는 상태가 단순할 때 적합하지만, 상태가 복잡해 질수록 관리가 어려움
+- useReduser는 상태 변화로직을 한곳에서 관리하므로, 상태 관리가 체계적으로 가능
+- useReduser로 관리하면 여러 개의 setState 필요
+- useReduser는 한개의 dispatch를 사용해 다양한 상태 변화를 처리
+- useState에서는 비동기 업데이트시 prevState를 직접 참고해야하는데 useReduser는 이를 자동으로 해결
+
+useRef란?
+- React에서 제공하는 Hook 중 하나로,
+컴포넌트가 리렌더링 되어도 유지되는 값을 저장하거나 DOM 요소에 직접 접근
+
+useRef의 주요 특징
+- 리렌더링을 유발하지 않음 (Count는 리렌더링을 하지않고 useState는 리렌더링을 수행함)
+- DOM 요소에 접근 가능
+- 컴포넌트의 상태를 저장할 수 있음
+--------------------------------------------------\
+useEffect란?
+- 리액트 함수형 컴포넌트에서 사이드 이펙트(Side Effect)를 처리할 때 사용하는 Hook
+- 리액트의 컴포넌트는 기본적으로 렌더링만 담당하지만 API 요청, 이벤트 리스너 등록, DOM 직접 조작, 타이머 설정 같은 부수적인 동작 (Side Effect)가 필요할 때 useEffect를 사용!
+- 클래스형 컴포넌트에서 ComponentDidMount, componentDidUpdate, componentWillUnMount를 사용하던 것을 대체.
+
+- 클래스형 컴포넌트에서는 컴포넌트 생명주기를 관리하기 위해 여러 메서드를 사용
+- ComponentDidMount는 마운트 후 실행
+- ComponentDidUpdate는 업데이트 실행
+- ComponentWillUnMount는 언마운트시 실행행

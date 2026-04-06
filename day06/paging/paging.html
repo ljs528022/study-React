@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 페이징</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 20px;
+            color: #333;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }        
+        
+        table {
+            width: 100%;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #5b5a5a;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination button {
+            padding: 10px 14px;
+            border: none;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+        
+        .pagination .current {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>게시글 페이징</h1>
+
+    <input type="file" id="fileInput" />
+    <br /><br />
+    페이지당 레코드 수: <input type="number" id="recordsPerPage" min="1" value="5"> 
+    페이지 버튼 최대 수: <input type="number" id="maxPageButtons" min="1" value="5">
+    <button onclick="loadData()">데이터 로드</button>
+    <br /><br />
+
+    <table id="postsTable">
+        <thead>
+            <tr>
+                <th>게시글 ID</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성 시간</th>
+                <th>태그</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="pagination" class="pagination"></div>
+
+    <script>
+        let posts = [];
+        let currentPage = 1;
+        let recordsPerPage = 5;
+        let maxPageButtons = 5;
+
+        function loadData() {
+            const fileInput = document.getElementById("fileInput");
+            const recordsPerPageInput = document.getElementById('recordsPerPage').value;
+            const maxPageButtonsInput = document.getElementById('maxPageButtons').value;
+
+            recordsPerPage = parseInt(recordsPerPageInput);
+            maxPageButtons = parseInt(maxPageButtonsInput);
+
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('파일을 선택해주세요!');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+
+                    posts = data.posts;
+
+                    renderTable();
+
+                    renderPagination();
+                } catch (e) {
+                    alert('파일 읽기 오류');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function renderTable() {
+            const tableBody = document
+                .getElementById('postsTable')
+                .getElementsByTagName('tbody')[0];
+
+            tableBody.innerHTML = "";
+
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = startIndex + recordsPerPage - 1;
+            const currentPageData = posts.slice(startIndex, endIndex + 1);
+
+
+
+            currentPageData.forEach((post) => {
+                const row = tableBody.insertRow();
+
+                row.innerHTML = `
+                    <td>${post.post_id}</td>
+                    <td>${post.title}</td>
+                    <td>${post.author}</td>
+                    <td>${post.created_at}</td>
+                    <td>${post.tags.join(', ')}</td>
+                `;
+            });
+            
+        }
+
+        function renderPagination() {
+            const paginationDiv = document.getElementById('pagination');
+
+            paginationDiv.innerHTML = "";
+
+            const totalPage = Math.ceil(posts.length / recordsPerPage);
+
+            if (totalPage === 0) return;
+
+            let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+            let endPage = Math.min(totalPage, startPage + maxPageButtons - 1);
+
+            // 표시되는 페이지 버튼이 부족할 경우
+            // 마지막 페이지 기준으로 maxPageButton만큼 표시되도록 함
+            if (endPage - startPage + 1 < maxPageButtons) {
+                startPage = Math.max(1, endPage - maxPageButtons + 1);
+            }
+
+            if (currentPage > 1) {
+                paginationDiv.innerHTML += `<button onclick="changePage(1)">&lt;&lt;</button>`
+            }
+
+            if (startPage > 1) {
+                paginationDiv.innerHTML += `<button onclick="changePage(${startPage - 1})">&lt;</button>`
+            }
+
+            for(let i = startPage; i <= endPage; i++) {
+                paginationDiv.innerHTML += `<button onclick="changePage(${i})" class="${i === currentPage ? "current"  : ""}">${i}</button>`
+            }
+
+            if (endPage < totalPage){
+                paginationDiv.innerHTML += `<button onclick="changePage(${endPage + 1})">&gt;</button>`
+            }
+
+            if (currentPage < totalPage) {
+                paginationDiv.innerHTML += `<button onclick="changePage(${totalPage})">&gt;&gt;</button>`
+            }
+        }
+
+        function changePage(page) {
+            const totalPage = Math.ceil(posts.length / recordsPerPage);
+
+            if (page < 1 || page > totalPage) return;
+
+            currentPage = page;
+
+            renderTable();
+            renderPagination();
+        }
+    </script>
+</body>
+</html>
